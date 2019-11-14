@@ -1,8 +1,7 @@
-import 'package:fish_bone/routes/arrange_work_page.dart';
-import 'package:fish_bone/routes/notifi_page.dart';
-import 'package:fish_bone/routes/to_do_page.dart';
-import 'package:fish_bone/routes/work_table_page.dart';
-import 'package:fish_bone/styles.dart';
+import 'package:fish_bone/routes/pages/page_notification.dart';
+import 'package:fish_bone/routes/pages/page_task.dart';
+import 'package:fish_bone/routes/pages/page_project.dart';
+import 'package:fish_bone/routes/pages/page_worktable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ class _FishBoneHomeState extends State<FishBoneHome> {
   var pages = <Widget>[
     InfoRoute(),
     TaskDisplayPage(),
-    TaskCreatePage(),
+    ProjectDisplayPage(),
     SettingPage(),
   ];
 
@@ -26,7 +25,6 @@ class _FishBoneHomeState extends State<FishBoneHome> {
     return Scaffold(
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-
         unselectedItemColor: Colors.grey,
         fixedColor: Theme.of(context).accentColor,
         currentIndex: _selectedIndex,
@@ -36,13 +34,12 @@ class _FishBoneHomeState extends State<FishBoneHome> {
             title: Text('通知'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.add_circled_solid),
-            title: Text('安排工作'),
+            icon: Icon(CupertinoIcons.tag_solid),
+            title: Text('待办任务'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.tag_solid),
-            title: Text('待办'),
-          ),
+              icon: Icon(Icons.featured_play_list),
+              title: Text('项目列表')),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             title: Text('工作台'),

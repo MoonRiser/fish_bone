@@ -19,8 +19,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^2.1.13
+  dio: ^3.0.4
+  dio_cookie_manager: 1.0.0
   provider: ^3.0.0+1
+  path_provider: ^0.5.0+1
   shared_preferences: ^0.5.1+1
   cached_network_image: ^0.8.0
   fluttertoast: ^3.0.3
@@ -48,7 +50,9 @@ flutter:
   assets:
   - images/validate_code.png
   - images/logo_dark.png
-
+  - images/image_01.png
+  - images/image_02.png
+  - images/image_03.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

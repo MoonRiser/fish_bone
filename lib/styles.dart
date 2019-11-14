@@ -54,7 +54,7 @@ abstract class Styles {
     return ConstrainedBox(
       constraints: BoxConstraints.expand(height: 48.0),
       child: RaisedButton(
-        color: Theme.of(context).primaryColor,
+        color: Colors.blueAccent,
         textColor: Colors.white,
         child: Text(label),
         disabledElevation: 0,

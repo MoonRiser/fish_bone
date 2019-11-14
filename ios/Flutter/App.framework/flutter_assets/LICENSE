@@ -5298,6 +5298,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
+dio_cookie_manager
+flukit
+
+TODO: Add your license here.
+
+--------------------------------------------------------------------------------
 double-conversion
 icu
 
@@ -5715,11 +5721,6 @@ fish_bone
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
---------------------------------------------------------------------------------
-flukit
-
-TODO: Add your license here.
 
 --------------------------------------------------------------------------------
 fluttertoast
