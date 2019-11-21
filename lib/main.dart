@@ -1,9 +1,9 @@
-import 'package:fish_bone/common/network_api.dart';
-import 'package:fish_bone/routes/home.dart';
-import 'package:fish_bone/routes/login.dart';
 import 'package:fish_bone/routes/create_project.dart';
 import 'package:fish_bone/routes/create_task.dart';
+import 'package:fish_bone/routes/detail_project.dart';
 import 'package:fish_bone/routes/detail_task.dart';
+import 'package:fish_bone/routes/home.dart';
+import 'package:fish_bone/routes/login.dart';
 import 'package:fish_bone/states/ui_state.dart';
 import 'package:fish_bone/styles.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +32,12 @@ class MyApp extends StatelessWidget {
                 accentColor: Styles.colorAccent),
             darkTheme: ThemeData.dark(),
             themeMode: Provider.of<UIState>(context).themeMode,
+          //  themeMode: ThemeMode.system,
             home: LoginRoute(),
             routes: <String, WidgetBuilder>{
               "home": (context) => FishBoneHome(),
               "taskDetail": (context) => TaskDetail(),
+              "projectDetail": (context) => ProjectDetail(),
               "login": (context) => LoginRoute(),
               "taskCreate": (context) => TaskCreatePage(),
               "projectCreate":(context)=> ProjectCreatePage(),

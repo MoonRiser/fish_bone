@@ -2,6 +2,7 @@ import 'package:fish_bone/models/bean.dart';
 import 'package:fish_bone/widgets/item_noti.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TaskDetail extends StatefulWidget {
   @override
@@ -69,7 +70,7 @@ class _TaskDetailState extends State<TaskDetail> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.fromLTRB(16,16,16,0),
         child: Column(
           children: <Widget>[
             Padding(
@@ -89,7 +90,9 @@ class _TaskDetailState extends State<TaskDetail> {
                     TextSpan(
                         text: "小明",
                         style: TextStyle(color: Colors.blue),
-                        recognizer: TapGestureRecognizer()..onTap = () {}),
+                        recognizer: TapGestureRecognizer()..onTap = () {
+                          Fluttertoast.showToast(msg: "我是小明");
+                        }),
                     TextSpan(text: "\n优先级： "),
                     TextSpan(
                         text: "普通",

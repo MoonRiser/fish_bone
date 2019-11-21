@@ -25,7 +25,7 @@ class _InfoRouteState extends State<InfoRoute> with TickerProviderStateMixin {
     var data = <NotiBean>[];
     for (int i = 0; i < 5; i++) {
       data.add(new NotiBean('小明$i', "死去元知万事空，但悲不见九州同.\n王师北定中原日，家祭无忘告乃翁",
-          'SS5${i}1', "1989-0${i}/04"));
+          'SS5${i}1', "1989-0$i/04"));
     }
 
     return InfiniteListView<NotiBean>(

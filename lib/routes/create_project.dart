@@ -11,6 +11,7 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
   bool isFirstTime = true;
   var startTime;
   var endTime;
+  var _withTree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent))),
             ),
+            SizedBox(height: 24,),
             Expanded(
               child: SingleChildScrollView(
                 child: ExpansionPanelList.radio(
@@ -102,15 +104,28 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
                       headerBuilder: (BuildContext context, bool isExpanded) {
                         return Row(
                           children: <Widget>[
-                            Text("管控型项目"),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+                              child:Text("管控型项目"),),
                             Spacer(),
-                            Switch(
-                              onChanged: (isSelect) {},
+                            Builder(
+                              builder: (BuildContext context) {
+                                return Switch(
+                                  value: _withTree,
+                                  onChanged: (bool value) {
+                                    (context as Element).markNeedsBuild();
+                                    _withTree = !_withTree;
+                                  },
+                                );
+                              },
                             ),
                           ],
                         );
                       },
-                      body: Text("打开后只有项目经理能修改项目中的任务"),
+                      body: Padding(
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        child: Text("打开后只有项目经理能修改项目中的任务"),
+                      ),
                       value: 4,
                     ),
                   ],

@@ -7,7 +7,7 @@ class TaskItemView extends StatelessWidget {
 
 
   TaskItemView(this.taskBean);
-  TaskBean taskBean;
+  final TaskBean taskBean;
 
   @override
   Widget build(BuildContext context) {

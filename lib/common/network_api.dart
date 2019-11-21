@@ -1,21 +1,23 @@
 import 'dart:typed_data';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fish_bone/common/global.dart';
 import 'package:fish_bone/models/bean.dart';
-import 'package:flutter/foundation.dart';
+import 'package:fish_bone/states/ui_state.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class Net {
-  BuildContext _context;
-  var cookieJar = CookieJar();
+  BuildContext context;
+  var cookieJar = new CookieJar();
 
 // 静态私有成员，没有初始化
   static Net _instance;
 
   static Dio dio = new Dio(BaseOptions(
-    baseUrl: 'http://192.168.137.1:8080/fish_boom/',
+    baseUrl: 'http://localhost:8080/fish_boom/',
   ));
 
   // 单例公开访问点
@@ -40,14 +42,20 @@ class Net {
 //  print(cookieJar.loadForRequest(Uri.parse("https://baidu.com/")));
 
   void init() {
+//    Directory appDocDir = await getApplicationDocumentsDirectory();
+//    String appDocPath = appDocDir.path;
+//    var cookieJar = PersistCookieJar(dir: appDocPath + "/.cookies/");
     dio.interceptors.add(CookieManager(cookieJar));
+    dio.interceptors.add(Global.netCache);
   }
 
   Future<Uint8List> getCaptcha() async {
     var url = "/getCaptcha";
     Response<List<int>> rs = await dio.get<List<int>>(
       url,
-      options: Options(responseType: ResponseType.bytes), //设置接收类型为bytes
+      options: Options(
+          responseType: ResponseType.bytes,
+          extra: {"noCache": true}), //设置接收类型为bytes
     );
 
 //    String  source = response.data as String;
@@ -80,10 +88,30 @@ class Net {
 
     if (json['list'] != null) {
       var user = User.fromJson(json['list']);
-      Global().currentUser = user;
+      if (context != null) {
+        Provider.of<UIState>(context, listen: false).user = user;
+      }
       return 'true';
     } else {
       return json['message'];
     }
+  }
+
+  Future<Map<String,dynamic>> getTaskList(
+      int page, int pageSize, int taskType, String status, bool refresh) async {
+    var url = "/task/list";
+    Response<dynamic> response = await dio.get(
+      url,
+      options: Options(extra: {"list": true, "refresh": refresh}),
+      queryParameters: {
+        "start": page,
+        "size": pageSize,
+        "task_type": taskType,
+        "status": status,
+        "sorters": "{\"column\": \"end_Date\", \"direction\": \"asc\"}"
+      },
+    ); //设置接收类型为bytes
+    //print(response.data['list']);
+    return response.data;
   }
 }

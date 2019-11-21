@@ -1,3 +1,4 @@
+import 'package:fish_bone/widgets/item_project.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDisplayPage extends StatefulWidget {
@@ -41,7 +42,10 @@ class _ProjectCreatePageState extends State<ProjectDisplayPage>
         controller: controller,
         children: <Widget>[
           Center(
-            child: Text(_index.toString()),
+            child:ListView.builder(itemBuilder: (context,index){
+              return ProjectItemView();
+            },
+            itemCount: 7,)
           ),
           Center(
             child: Text(_index.toString()),

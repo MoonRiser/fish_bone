@@ -7,10 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 var title = [
-  "Hounted Ground",
-  "Fallen In Love",
-  "The Dreaming Moon",
-  "Jack the Persian and the Black Castel",
+  "东风南方",
+  "技术·日产",
+  "人·车·生活",
 ];
 
 var images = [
@@ -27,7 +26,7 @@ class SettingPage extends StatefulWidget {
 class _TaskCreatePageState extends State<SettingPage> {
   var currentPage = images.length - 1.0;
   PageController controller;
-  User user = Global().currentUser;
+  User user = Global.profile.currentUser;
 
   @override
   void initState() {
@@ -43,17 +42,26 @@ class _TaskCreatePageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final  _state = Provider.of<UIState>(context);
+    final _state = Provider.of<UIState>(context);
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [
-            Color(0xFF1b1e44),
-            Color(0xFF2d3447),
-          ],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              tileMode: TileMode.clamp)),
+          gradient: _state.themeMode == ThemeMode.dark
+              ? LinearGradient(
+                  colors: [
+                      Color(0xFF1b1e44),
+                      Color(0xFF2d3447),
+                    ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  tileMode: TileMode.clamp)
+              : LinearGradient(
+                  colors: [
+                      Colors.blueGrey[200],
+                      Colors.blueGrey[700],
+                    ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  tileMode: TileMode.clamp)),
       child: SafeArea(
           child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -111,8 +119,8 @@ class _TaskCreatePageState extends State<SettingPage> {
                         Icons.exit_to_app,
                         color: Colors.white,
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, "login");
+                      onPressed: () async {
+                        await logout(context);
                       },
                     )
                   ],
@@ -123,6 +131,36 @@ class _TaskCreatePageState extends State<SettingPage> {
         ),
       )),
     );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    bool isLogout = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("退出登陆"),
+            content: Text("确定退出登陆吗？"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("取消"),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text("是的"),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              )
+            ],
+          );
+        });
+    if (isLogout) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('login', (Route<dynamic> route) => false);
+    }
   }
 }
 

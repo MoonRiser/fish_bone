@@ -1,37 +1,37 @@
-import 'package:fish_bone/models/bean.dart';
+import 'dart:convert';
 
+import 'package:fish_bone/models/cacheConfig.dart';
+import 'package:fish_bone/models/profile.dart';
+import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'net_cache.dart';
 import 'network_api.dart';
 
 class Global {
-  User _currentUser;
+  static Profile profile = new Profile();
+  static SharedPreferences _prefs;
+  static NetCache netCache = new NetCache();
 
-// 静态私有成员，没有初始化
-  static Global _instance;
-
-  // 单例公开访问点
-  factory Global() => _sharedInstance();
-
-  // 私有构造函数
-  Global._() {
-    // 具体初始化代码
-  }
-
-  // 静态、同步、私有访问点
-  static Global _sharedInstance() {
-    if (_instance == null) {
-      _instance = Global._();
-    }
-    return _instance;
-  }
-
-
-  User get currentUser => _currentUser;
-
-  set currentUser(User value) {
-    _currentUser = value;
-  }
-
-  static void init() {
+  static Future init() async {
     new Net().init();
+    WidgetsFlutterBinding.ensureInitialized();
+    _prefs = await SharedPreferences.getInstance();
+    var _profile = _prefs.getString("profile");
+    if (_profile != null) {
+      try {
+        profile = Profile.fromJson(jsonDecode(_profile));
+      } catch (e) {
+        print(e);
+      }
+    }
+    profile.config = profile.config ?? CacheConfig()
+      ..enable = true
+      ..maxAge = 3600
+      ..maxCount = 30;
   }
+
+  // 持久化Profile信息
+  static saveProfile() =>
+      _prefs.setString("profile", jsonEncode(profile.toJson()));
 }
