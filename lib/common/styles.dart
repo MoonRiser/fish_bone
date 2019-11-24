@@ -86,7 +86,7 @@ abstract class Styles {
     */
   }
 
-  static Color randomColor() {
+  static Color randomColor([int seed]) {
     var colors = [
       Colors.red,
       Colors.orange,
@@ -94,7 +94,7 @@ abstract class Styles {
       Colors.blue,
       Colors.green,
     ];
-    var random = new Random();
+    var random = new Random(seed);
     return colors[random.nextInt(5)];
   }
 }

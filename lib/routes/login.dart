@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:fish_bone/common/global.dart';
 import 'package:fish_bone/common/network_api.dart';
-import 'package:fish_bone/styles.dart';
+import 'package:fish_bone/common/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,6 +29,7 @@ class _LoginRouteState extends State<LoginRoute> {
   @override
   void initState() {
     super.initState();
+    _controllerAccout.text = Global.profile.lastLogin;
     _net = new Net()..context = context;
     _setCaptChaCode();
   }

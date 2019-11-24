@@ -1,10 +1,50 @@
-class NotiBean {
+class Notifi {
+  int id;
+
   String userName;
   String content;
-  String taskName;
+  String subjectName;
   String date;
 
-  NotiBean(this.userName, this.content, this.taskName, this.date);
+  String type;
+  int subjectId;
+
+  Notifi();
+
+  //{list: [{id: 153, pid: 19, tid: null, creator: kanye, content: 132132, creatTime: 2019-11-11 23:17:23,
+  // subject_id: 19, type: project, subject_name: fish_bone}, {id: 165, pid: 19, tid: null, creator: kanye,
+  // content: 13123123, creatTime: 2019-11-11 23:52:48, subject_id: 19, type: project, subject_name: fish_bone},
+  // {id: 205, pid: null, tid: 62, creator: kanye, content: 修改任务抄送人为：
+  // [{"acco":"Test2","name":"uzi","id":3,"dept":"智能网联","position":"软件开发工程师"}],
+  // creatTime: 2019-11-12 19:22:49, subject_id: 62, type: task, subject_name: 任务Test},
+  // {id: 206, pid: null, tid: 62, creator: kanye, content: 修改任务抄送人为：
+  // [{"acco":"Test2","name":"uzi","id":3,"dept":"智能网联","position":"软件开发工程师"},
+  // {"acco":"Test3","name":"offset","id":4,"dept":"智能网联","position":"软件开发工程师"}],
+  // creatTime: 2019-11-12 19:22:59, subject_id: 62, type: task, subject_name: 任务Test},
+  // {id: 209, pid: null, tid: 62, creator: kanye, content: <…>
+
+  factory Notifi.fromJson(Map<String, dynamic> json) {
+    return Notifi()
+      ..id = json['id']
+      ..userName = json['creator']
+      ..content = json['content']
+      ..subjectName = json['subject_name']
+      ..date = json['creatTime']
+      ..type = json['type']
+      ..subjectId = json['subject_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'creator': this.userName,
+      'content': this.content,
+      'subject_name': this.subjectName,
+      'creatTime': this.date,
+      'type': this.type,
+      'subject_id': this.subjectId,
+    };
+  }
 }
 
 class TaskBean {
@@ -14,6 +54,7 @@ class TaskBean {
 
   TaskBean(this.taskName, this.status, this.time);
 }
+
 
 class Task {
   //{id: 64, name: 任务Test, code: T20191027, type: 普通, content: 这是一个任务啊, fGid: 81, cGid: 82,

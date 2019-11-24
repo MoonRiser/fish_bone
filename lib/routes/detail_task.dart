@@ -10,7 +10,7 @@ class TaskDetail extends StatefulWidget {
 }
 
 class _TaskDetailState extends State<TaskDetail> {
-  var data = <NotiBean>[];
+  var data = <Notifi>[];
   var controller = new TextEditingController();
 
   @override
@@ -21,7 +21,7 @@ class _TaskDetailState extends State<TaskDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // var args = ModalRoute.of(context).settings.arguments;
+    var task = ModalRoute.of(context).settings.arguments as Task;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -58,8 +58,10 @@ class _TaskDetailState extends State<TaskDetail> {
                 onPressed: () {
                   if (controller.text.length > 0) {
                     setState(() {
-                      data.insert(0, new NotiBean('小明', controller.text, "SS501",
-                          TimeOfDay.now().toString()));
+//                      data.insert(
+//                          0,
+//                          new Notifi(55,'XWenc', controller.text, "SS501",
+//                              TimeOfDay.now().toString()));
                       controller.clear();
                     });
                   }
@@ -70,13 +72,14 @@ class _TaskDetailState extends State<TaskDetail> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(16,16,16,0),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(vertical: 8),
               child: Text(
-                '[G001]感谢您使用鱼骨任务和项目协作系统！',
+                task.name,
+                //       '[G001]感谢您使用鱼骨任务和项目协作系统！',
                 textScaleFactor: 2,
               ),
             ),
@@ -88,14 +91,15 @@ class _TaskDetailState extends State<TaskDetail> {
                   Text.rich(TextSpan(children: [
                     TextSpan(text: "负责人： "),
                     TextSpan(
-                        text: "小明",
+                        text: getPeopleName(task.ff),
                         style: TextStyle(color: Colors.blue),
-                        recognizer: TapGestureRecognizer()..onTap = () {
-                          Fluttertoast.showToast(msg: "我是小明");
-                        }),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Fluttertoast.showToast(msg: "我是小明");
+                          }),
                     TextSpan(text: "\n优先级： "),
                     TextSpan(
-                        text: "普通",
+                        text: task.priority,
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()..onTap = () {}),
                   ])),
@@ -105,12 +109,12 @@ class _TaskDetailState extends State<TaskDetail> {
                   Text.rich(TextSpan(children: [
                     TextSpan(text: "结束时间： "),
                     TextSpan(
-                        text: "2019-08-21",
+                        text: task.endDate.split(" ")[0],
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()..onTap = () {}),
                     TextSpan(text: "\n抄送人： "),
                     TextSpan(
-                        text: "未设置",
+                        text: getPeopleName(task.cc),
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()..onTap = () {}),
                   ])),
@@ -125,7 +129,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     return Container(
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: Text(
-                        "千古江山，英雄无觅，孙仲谋处 \n 舞榭歌台，风流总被、雨打风吹去。\n斜阳草树，寻常巷陌，人道寄奴曾住。\n想当年，金戈铁马，气吞万里如虎。\n元嘉草草，封狼居胥，赢得仓皇北顾。\n四十三年，望中犹记，烽火扬州路。可堪回首，佛狸祠下，一片神鸦社鼓。\n凭谁问：廉颇老矣，尚能饭否？",
+                        task.content,
                         textScaleFactor: 1.4,
                       ),
                     );
@@ -133,7 +137,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     return Row(
                       children: <Widget>[
                         Text(
-                          "任务执行\n小明",
+                          "任务执行\n${task.creator}",
                           style: TextStyle(color: Colors.blueAccent),
                         ),
                         Spacer(
@@ -175,8 +179,21 @@ class _TaskDetailState extends State<TaskDetail> {
   }
 
   void getData() {
-    for (int i = 0; i < 5; i++) {
-      data.add(new NotiBean('小明', "注意你的bug，他会爆发", 'SS5${i}1', "1989-0$i/04"));
+//    for (int i = 0; i < 5; i++) {
+//      data.add(new NotiBean(i,'小红', "注意你的bug，他会爆发", 'SS5${i}1', "1989-0$i/04"));
+//    }
+  }
+
+  String getPeopleName(List<User> list) {
+    switch (list.length) {
+      case 0:
+        return "";
+      case 1:
+        return "${list[0].name}";
+      case 2:
+        return "${list[0].name}\\${list[1].name}";
     }
+
+    return "${list[0].name}\\${list[1].name}...";
   }
 }

@@ -1,6 +1,11 @@
+import 'package:fish_bone/models/bean.dart';
 import 'package:flutter/material.dart';
 
 class ProjectItemView extends StatelessWidget {
+  final Project project;
+
+  ProjectItemView(this.project);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -13,47 +18,49 @@ class ProjectItemView extends StatelessWidget {
           padding: EdgeInsets.all(8),
           child: Row(
             children: <Widget>[
-              Spacer(),
-              Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    width: 48,
-                    height: 48,
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.grey[200],
-                      valueColor:
-                          AlwaysStoppedAnimation(Theme.of(context).accentColor),
-                      value: .7,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.grey[200],
+                        valueColor: AlwaysStoppedAnimation(
+                            Theme.of(context).accentColor),
+                        value: .7,
+                      ),
                     ),
-                  ),
-                  Text("70%"),
-                ],
+                    Text(project.percent),
+                  ],
+                ),
               ),
-              Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
                       Text(
-                        "XM2019001",
+                        project.code ?? "null",
                         textScaleFactor: 0.8,
                       ),
                       SizedBox(
                         width: 16,
                       ),
                       Text(
-                        "鱼骨营销推广项目",
+                        project.name.length>10?project.name.substring(0,10):project.name,
                         textScaleFactor: 1.4,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  Text(" 2016/02/25-2018/6/24"),
-                  Text("项目经理：艾达王 "),
+                  Text(
+                      " ${project.startDate.split(" ")[0]}~${project.endDate.split(" ")[0]}"),
+                  Text("项目经理:${project.pm.name} "),
                 ],
               ),
-              Spacer(),
             ],
           ),
         ),

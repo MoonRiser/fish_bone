@@ -13,7 +13,7 @@ class Profile {
     return Profile()
       ..config = json['config'] == null
           ? null
-          : CacheConfig.fromJson(json['config' as Map<String, dynamic>])
+          : CacheConfig.fromJson(json['config']as Map<String, dynamic>)
       ..currentUser = json['currentUser'] == null
           ? null
           : User.fromJson(json['currentUser'] as Map<String, dynamic>)

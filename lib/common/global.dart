@@ -21,8 +21,9 @@ class Global {
     if (_profile != null) {
       try {
         profile = Profile.fromJson(jsonDecode(_profile));
+     //   print(profile.lastLogin);
       } catch (e) {
-        print(e);
+        print("23333$e");
       }
     }
     profile.config = profile.config ?? CacheConfig()

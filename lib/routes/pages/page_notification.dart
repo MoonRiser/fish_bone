@@ -1,3 +1,4 @@
+import 'package:fish_bone/common/network_api.dart';
 import 'package:fish_bone/models/bean.dart';
 import 'package:fish_bone/widgets/item_noti.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ class InfoRoute extends StatefulWidget {
 }
 
 class _InfoRouteState extends State<InfoRoute> with TickerProviderStateMixin {
+  var data = <Notifi>[];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,22 +25,39 @@ class _InfoRouteState extends State<InfoRoute> with TickerProviderStateMixin {
   }
 
   Widget _buildBody() {
-    var data = <NotiBean>[];
-    for (int i = 0; i < 5; i++) {
-      data.add(new NotiBean('小明$i', "死去元知万事空，但悲不见九州同.\n王师北定中原日，家祭无忘告乃翁",
-          'SS5${i}1', "1989-0$i/04"));
-    }
+    return InfiniteListView<Notifi>(
+      onRetrieveData: (int page, List<Notifi> items, bool refresh) async {
+        //page是从1开始，不是从0开始
+        if (data.length == 0 || refresh == true) {
+          if (refresh == true) {
+            data.clear();
+          }
+          var json = await Net().getNotiList(refresh);
+          var jsonNotifi = json['list'] as List;
+          data.addAll(jsonNotifi.map((v) => Notifi.fromJson(v)).toList());
+        }
 
-    return InfiniteListView<NotiBean>(
-      onRetrieveData: (int page, List<NotiBean> items, bool refresh) async {
         //把请求到的新数据添加到items中
-        items.addAll(data);
-        return data.length > 0 && data.length % 5 == 0;
+     //   print("data:" + data.length.toString());
+        var sublist;
+        if ((page) * 10 > data.length) {
+          sublist = data.sublist((page - 1) * 10);
+        } else {
+          sublist = data.sublist((page - 1) * 10, page * 10);
+        }
+        items.addAll(sublist);
+   //     print(page.toString() + items.length.toString());
+        return (items.length > 0) && (sublist.length % 10 == 0);
       },
       itemBuilder: (List list, int index, BuildContext ctx) {
-        return Card(
-          margin: EdgeInsets.all(4),
-          child: NotiItem(list[index]),
+        return GestureDetector(
+          onTap: () async {
+            //  await new Net().getNotiList();
+          },
+          child: Card(
+            margin: EdgeInsets.all(4),
+            child: NotiItem(list[index]),
+          ),
         );
       },
     );

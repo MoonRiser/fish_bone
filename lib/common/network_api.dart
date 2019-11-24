@@ -97,7 +97,7 @@ class Net {
     }
   }
 
-  Future<Map<String,dynamic>> getTaskList(
+  Future<Map<String, dynamic>> getTaskList(
       int page, int pageSize, int taskType, String status, bool refresh) async {
     var url = "/task/list";
     Response<dynamic> response = await dio.get(
@@ -113,5 +113,34 @@ class Net {
     ); //设置接收类型为bytes
     //print(response.data['list']);
     return response.data;
+  }
+
+
+  Future<Map<String, dynamic>> getProjList(
+      int page, int pageSize, String status, bool refresh) async {
+    var url = "/proj/list";
+    Response<dynamic> response = await dio.get(
+      url,
+      options: Options(extra: {"list": true, "refresh": refresh}),
+      queryParameters: {
+        "start": page,
+        "size": pageSize,
+        "status": status,
+        "sorters": "{\"column\": \"end_Date\", \"direction\": \"asc\"}"
+      },
+    ); //设置接收类型为bytes
+    //print(response.data['list']);
+    return response.data;
+  }
+
+
+  Future<Map<String, dynamic>> getNotiList([bool refresh]) async {
+    var url = '/opera/list';
+    Response<dynamic> response = await dio.get(
+      url,
+      options: Options(extra: {"list": true, "refresh": refresh}),
+    );
+    return response.data;
+    // print(response.data);
   }
 }

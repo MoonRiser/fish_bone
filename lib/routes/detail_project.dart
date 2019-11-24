@@ -11,7 +11,7 @@ class ProjectDetail extends StatefulWidget {
 class _ProjectDetailState extends State<ProjectDetail> {
   var _isList = false;
   var controller = new TextEditingController();
-  var data = <NotiBean>[];
+  var data = <Notifi>[];
 
   @override
   void initState() {
@@ -60,10 +60,10 @@ class _ProjectDetailState extends State<ProjectDetail> {
                         color: Colors.grey,
                       ),
                       onPressed: () {
-                        data.insert(
-                            0,
-                            new NotiBean('小明', controller.text, "SS501",
-                                TimeOfDay.now().toString()));
+//                        data.insert(
+//                            0,
+//                            new NotiBean(0, '小明', controller.text, "SS501",
+//                                TimeOfDay.now().toString()));
                         controller.clear();
                         setState(() {});
                       },
@@ -84,7 +84,10 @@ class _ProjectDetailState extends State<ProjectDetail> {
                 ),
                 Spacer(),
                 IconButton(
-                  icon: Icon(Icons.delete,color: Colors.grey,),
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.grey,
+                  ),
                   onPressed: () {},
                 )
               ],
@@ -181,8 +184,8 @@ class _ProjectDetailState extends State<ProjectDetail> {
   }
 
   void getData() {
-    for (int i = 0; i < 5; i++) {
-      data.add(new NotiBean('小明', "注意你的bug，他会爆发", 'SS5${i}1', "1989-0$i/04"));
-    }
+//    for (int i = 0; i < 5; i++) {
+//      data.add(new NotiBean(i,'小明', "注意你的bug，他会爆发", 'SS5${i}1', "1989-0$i/04"));
+//    }
   }
 }

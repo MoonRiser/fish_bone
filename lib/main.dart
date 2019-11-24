@@ -5,7 +5,7 @@ import 'package:fish_bone/routes/detail_task.dart';
 import 'package:fish_bone/routes/home.dart';
 import 'package:fish_bone/routes/login.dart';
 import 'package:fish_bone/states/ui_state.dart';
-import 'package:fish_bone/styles.dart';
+import 'package:fish_bone/common/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

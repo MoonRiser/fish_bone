@@ -1,58 +1,68 @@
 import 'package:fish_bone/models/bean.dart';
-import 'package:fish_bone/styles.dart';
+import 'package:fish_bone/common/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class NotiItem extends StatelessWidget {
-  NotiItem(this.notiBean);
+  NotiItem(this.notifi);
 
-  final NotiBean notiBean;
+  final Notifi notifi;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               ClipOval(
                 child: Container(
-                    height: 40,
-                    width: 40,
-                    color: Styles.randomColor(),
+                    height: 32,
+                    width: 32,
+                    color: Styles.randomColor(notifi.id),
                     child: Center(
                       child: Text(
-                        notiBean.userName.substring(0, 1), //以名字首字为头像
+                        notifi.userName.substring(0, 1), //以名字首字为头像
                         style: TextStyle(color: Colors.white),
-                        textScaleFactor: 2,
+                        textScaleFactor: 1.4,
                       ),
                     )),
               ),
-              Text(notiBean.userName),
-              Spacer(
-                flex: 1,
-              ),
-              Column(
-                children: <Widget>[
-                  Text(
-                    notiBean.taskName,
-                    maxLines: 1,
-                  ),
-                  Text(
-                    notiBean.date,
-                    style: TextStyle(color: Colors.grey),
-                    textScaleFactor: 0.8,
-                  )
-                ],
+              Text(
+                notifi.userName,
+                textScaleFactor: 0.8,
               ),
             ],
           ),
-          Text(
-            notiBean.content,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
+          Expanded(
+            flex: 1,
+        //    child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  notifi.content,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+          //  ),
+          ),
+          Column(
+            children: <Widget>[
+              Text(
+                notifi.subjectName,
+                maxLines: 1,
+              ),
+              Text(
+                notifi.date,
+                style: TextStyle(color: Colors.grey),
+                textScaleFactor: 0.8,
+              )
+            ],
           ),
         ],
       ),

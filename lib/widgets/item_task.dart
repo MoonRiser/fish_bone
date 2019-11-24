@@ -1,5 +1,5 @@
 import 'package:fish_bone/models/bean.dart';
-import 'package:fish_bone/styles.dart';
+import 'package:fish_bone/common/styles.dart';
 import 'package:flutter/material.dart';
 
 class TaskItemView extends StatelessWidget {
