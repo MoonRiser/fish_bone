@@ -115,7 +115,6 @@ class Net {
     return response.data;
   }
 
-
   Future<Map<String, dynamic>> getProjList(
       int page, int pageSize, String status, bool refresh) async {
     var url = "/proj/list";
@@ -133,7 +132,6 @@ class Net {
     return response.data;
   }
 
-
   Future<Map<String, dynamic>> getNotiList([bool refresh]) async {
     var url = '/opera/list';
     Response<dynamic> response = await dio.get(
@@ -142,5 +140,35 @@ class Net {
     );
     return response.data;
     // print(response.data);
+  }
+
+  Future<Map<String, dynamic>> getNotiListById(int id, String type) async {
+    var url = '/opera/listById';
+    Response<dynamic> response = await dio.get(
+      url,
+      queryParameters: {
+        "type": type,
+        "id": id,
+      },
+      options: Options(extra: {
+        "noCache": true,
+      }),
+    );
+    return response.data;
+    // print(response.data);
+  }
+
+  Future<Map<String, dynamic>> getTaskListInProj(int pid,
+      [bool refresh]) async {
+    var url = '/proj/listTask';
+    Response<dynamic> response = await dio.get(
+      url,
+      options: Options(extra: {"list": true, "refresh": refresh}),
+      queryParameters: {
+        "pid": pid,
+      },
+    );
+    //   print(response.data);
+    return response.data;
   }
 }

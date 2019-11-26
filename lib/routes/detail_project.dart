@@ -1,6 +1,8 @@
+import 'package:fish_bone/common/network_api.dart';
 import 'package:fish_bone/models/bean.dart';
-import 'package:fish_bone/routes/tabs/task_tab.dart';
 import 'package:fish_bone/widgets/item_noti.dart';
+import 'package:fish_bone/widgets/item_task.dart';
+import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDetail extends StatefulWidget {
@@ -12,6 +14,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
   var _isList = false;
   var controller = new TextEditingController();
   var data = <Notifi>[];
+  Project currentProj;
 
   @override
   void initState() {
@@ -21,6 +24,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
 
   @override
   Widget build(BuildContext context) {
+    currentProj = ModalRoute.of(context).settings.arguments as Project;
     return Scaffold(
       appBar: AppBar(
         title: Text("项目详情"),
@@ -107,9 +111,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
             Expanded(
               //  padding: EdgeInsets.symmetric(vertical: 16),
               child: _isList
-                  ? SafeArea(
-                      child: TaskTabView(5),
-                    )
+                  ? _buildList()
                   : ListView.separated(
                       itemBuilder: (context, index) {
                         if (index == 0) {
@@ -187,5 +189,33 @@ class _ProjectDetailState extends State<ProjectDetail> {
 //    for (int i = 0; i < 5; i++) {
 //      data.add(new NotiBean(i,'小明', "注意你的bug，他会爆发", 'SS5${i}1', "1989-0$i/04"));
 //    }
+  }
+
+  Widget _buildList() {
+    return InfiniteListView<Task>(
+      onRetrieveData: (int page, List<Task> items, bool refresh) async {
+        //把请求到的新数据添加到items中
+        var json = await Net().getTaskListInProj(currentProj.id, refresh);
+        var jsonTask = json['list'] as List;
+        var sublist = jsonTask.map((v) => Task.fromJson(v)).toList();
+        items.addAll(sublist);
+      //  print("items:${items.length}");
+        //      print(items.length.toString() + ":" + sublist.length.toString());
+        //   return (sublist.length > 0) && (sublist.length % 12 == 0);
+        return false;
+      },
+      itemBuilder: (List list, int index, BuildContext context) {
+        var task = list[index] as Task;
+        return GestureDetector(
+          child: TaskItemView(
+              new TaskBean(task.name, task.status, task.startDate)),
+          onTap: () {
+            Navigator.of(context)
+                .pushNamed("taskDetail", arguments: list[index]);
+          },
+        );
+        // return
+      },
+    );
   }
 }

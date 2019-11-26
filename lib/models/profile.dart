@@ -1,4 +1,3 @@
-import 'package:fish_bone/common/net_cache.dart';
 import 'package:fish_bone/models/bean.dart';
 import 'package:fish_bone/models/cacheConfig.dart';
 

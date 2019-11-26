@@ -19,7 +19,7 @@ class _LoginRouteState extends State<LoginRoute> {
   var _controllerAccout = new TextEditingController();
   var _controllerPWD = new TextEditingController();
   var _controllerVCode = new TextEditingController();
-  var _psdVisible = false;
+  var _psdVisible = true;
   var isRegister = true;
   bool isButtonEnable = false;
   bool currentStatus;

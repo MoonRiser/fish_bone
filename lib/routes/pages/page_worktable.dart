@@ -1,21 +1,23 @@
 import 'dart:core';
-import 'dart:math';
+
 import 'package:fish_bone/common/global.dart';
 import 'package:fish_bone/models/bean.dart';
 import 'package:fish_bone/states/ui_state.dart';
+import 'package:fish_bone/widgets/card_stack.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-var title = [
-  "东风南方",
-  "技术·日产",
-  "人·车·生活",
-];
+var title = ["人·车·生活", "技术·日产", "东风南方", "人生即·PLAY", "红色天鹅绒", "此刻微风起"];
 
 var images = [
-  "images/image_03.png",
-  "images/image_02.png",
   "images/image_01.png",
+  "images/image_02.png",
+  "images/image_03.png",
+  "images/play.jpg",
+  "images/the_red.jpg",
+  "images/yuner.jpg",
 ];
 
 class SettingPage extends StatefulWidget {
@@ -25,19 +27,12 @@ class SettingPage extends StatefulWidget {
 
 class _TaskCreatePageState extends State<SettingPage> {
   var currentPage = images.length - 1.0;
-  PageController controller;
+
   User user = Global.profile.currentUser;
 
   @override
   void initState() {
     super.initState();
-    controller = PageController(initialPage: images.length - 1);
-    controller.addListener(() {
-      setState(() {
-        currentPage = controller.page;
-        //     print("当前的page是double：$currentPage");
-      });
-    });
   }
 
   @override
@@ -95,16 +90,13 @@ class _TaskCreatePageState extends State<SettingPage> {
                 ),
               ),
               Stack(children: <Widget>[
-                CardScrollWidget(currentPage),
-                Positioned.fill(
-                  child: PageView.builder(
-                    itemCount: images.length,
-                    controller: controller,
-                    reverse: true,
-                    itemBuilder: (context, index) {
-                      return Container();
-                    },
-                  ),
+                CardScrollWidget(
+                  images,
+                  titles: title,
+                  callback: (index) {
+                    Fluttertoast.showToast(
+                        msg: "当前点击的是第${index}页", gravity: ToastGravity.CENTER);
+                  },
                 ),
               ]),
               Padding(
@@ -138,7 +130,7 @@ class _TaskCreatePageState extends State<SettingPage> {
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return AlertDialog(
+          return CupertinoAlertDialog(
             title: Text("退出登陆"),
             content: Text("确定退出登陆吗？"),
             actions: <Widget>[
@@ -161,114 +153,5 @@ class _TaskCreatePageState extends State<SettingPage> {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('login', (Route<dynamic> route) => false);
     }
-  }
-}
-
-class CardScrollWidget extends StatelessWidget {
-  final double currentPage;
-  final double padding = 20.0;
-  final double verticalInset = 20.0;
-
-  CardScrollWidget(this.currentPage);
-
-  @override
-  Widget build(BuildContext context) {
-    var cardAspectRatio = 12.0 / 16.0;
-    var widgetAspectRatio = cardAspectRatio * 1.2;
-
-    return new AspectRatio(
-      aspectRatio: widgetAspectRatio,
-      child: LayoutBuilder(builder: (context, contraints) {
-        var width = contraints.maxWidth;
-        var height = contraints.maxHeight;
-
-        var safeWidth = width - 2 * padding;
-        var safeHeight = height - 2 * padding;
-
-        var heightOfPrimaryCard = safeHeight;
-        var widthOfPrimaryCard = heightOfPrimaryCard * cardAspectRatio;
-
-        var primaryCardLeft = safeWidth - widthOfPrimaryCard;
-        var horizontalInset = primaryCardLeft / 2;
-
-        List<Widget> cardList = new List();
-
-        for (var i = 0; i < images.length; i++) {
-          var delta = i - currentPage;
-          bool isOnRight = delta > 0;
-
-          var start = padding +
-              max(
-                  primaryCardLeft -
-                      horizontalInset * -delta * (isOnRight ? 15 : 1),
-                  0.0);
-
-          var cardItem = Positioned.directional(
-            top: padding + verticalInset * max(-delta, 0.0),
-            bottom: padding + verticalInset * max(-delta, 0.0),
-            start: start,
-            textDirection: TextDirection.rtl,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(3.0, 6.0),
-                      blurRadius: 10.0)
-                ]),
-                child: AspectRatio(
-                  aspectRatio: cardAspectRatio,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      Image.asset(images[i], fit: BoxFit.cover),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 8.0),
-                              child: Text(title[i],
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12.0, bottom: 12.0),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 22.0, vertical: 6.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.blueAccent,
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                child: Text("Read Later",
-                                    style: TextStyle(color: Colors.white)),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-          cardList.add(cardItem);
-        }
-        return Stack(
-          children: cardList,
-        );
-      }),
-    );
   }
 }

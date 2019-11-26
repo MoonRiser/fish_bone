@@ -1,3 +1,4 @@
+import 'package:fish_bone/common/styles.dart';
 import 'package:flutter/material.dart';
 
 class TaskCreatePage extends StatefulWidget {
@@ -11,6 +12,16 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
   bool isFirstTime = true;
   var startTime;
   var endTime;
+  var names = ["Poker", "Ada Wong", "Fish", "Leon", "Rome"];
+  List<String> ccList = ["John Conner", "Peter Park", "Laura", "Morty", "Rick"];
+  Map<String, bool> cc;
+  String _selectedName = "Rome";
+
+  @override
+  void initState() {
+    super.initState();
+    cc = new Map.fromEntries(ccList.map((v) => new MapEntry(v, false)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +42,9 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent))),
             ),
+            SizedBox(
+              height: 24,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: ExpansionPanelList.radio(
@@ -42,12 +56,12 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                           title: Text("负责人"),
                         );
                       },
-                      body: ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return ListTile(title: Text("$index"));
-                        },
-                        shrinkWrap: true,
+                      body: Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
+                        child: Wrap(
+                          spacing: 16,
+                          children: getChoiceChips(names),
+                        ),
                       ),
                       value: 0,
                     ),
@@ -57,12 +71,12 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                           title: Text("抄送人"),
                         );
                       },
-                      body: ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return ListTile(title: Text("$index"));
-                        },
-                        shrinkWrap: true,
+                      body: Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
+                        child: Wrap(
+                          spacing: 16,
+                          children: getFilterChips(ccList),
+                        ),
                       ),
                       value: 1,
                     ),
@@ -75,17 +89,22 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                       body: GestureDetector(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                          child: Text(_time,textScaleFactor: 1.4,),
+                          child: Text(
+                            _time,
+                            textScaleFactor: 1.4,
+                          ),
                         ),
                         onTap: () async {
                           if (isFirstTime) {
                             startTime = await _showDatePicker1();
                             isFirstTime = false;
-                            _time = startTime.toString().split(" ")[0] + "  选择终止日期";
+                            _time =
+                                startTime.toString().split(" ")[0] + "  选择终止日期";
                           } else {
                             endTime = await _showDatePicker1(startTime);
-                            _time =
-                                startTime.toString().split(" ")[0] + " 到 " + endTime.toString().split(" ")[0];
+                            _time = startTime.toString().split(" ")[0] +
+                                " 到 " +
+                                endTime.toString().split(" ")[0];
                             isFirstTime = true;
                           }
                           setState(() {});
@@ -154,4 +173,36 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
     );
   }
 
+  List<Widget> getChoiceChips(List<String> _materials) {
+    return _materials.map<Widget>((String name) {
+      return ChoiceChip(
+        key: ValueKey<String>(name),
+        backgroundColor: Styles.getColorByString(name),
+        label: Text(name),
+        pressElevation: 0,
+        selected: _selectedName == name,
+        onSelected: (bool value) {
+          setState(() {
+            _selectedName = value ? name : '';
+          });
+        },
+      );
+    }).toList();
+  }
+
+  List<Widget> getFilterChips(List<String> _materials) {
+    return _materials.map<Widget>((String name) {
+      return FilterChip(
+        key: ValueKey<String>(name),
+        backgroundColor: Styles.getColorByString(name),
+        label: Text(name),
+        pressElevation: 0,
+        selected: cc[name],
+        onSelected: (bool value) {
+          cc[name] = value;
+          setState(() {});
+        },
+      );
+    }).toList();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:fish_bone/common/network_api.dart';
 import 'package:fish_bone/models/bean.dart';
 import 'package:fish_bone/widgets/item_noti.dart';
 import 'package:flutter/gestures.dart';
@@ -5,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TaskDetail extends StatefulWidget {
+  final Task task;
+
+  TaskDetail(this.task);
+
   @override
   _TaskDetailState createState() => _TaskDetailState();
 }
@@ -21,7 +26,8 @@ class _TaskDetailState extends State<TaskDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var task = ModalRoute.of(context).settings.arguments as Task;
+    var task = widget.task;
+    // print(task);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -161,13 +167,15 @@ class _TaskDetailState extends State<TaskDetail> {
                       ],
                     );
                   } else {
-                    return NotiItem(data[index - 2]);
+                    return data.length > 0
+                        ? NotiItem(data[index - 2])
+                        : Container();
                   }
                 },
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
-                itemCount: data.length + 2,
+                itemCount: data.length > 0 ? data.length + 2 : 2,
                 shrinkWrap: true,
               ),
             ),
@@ -178,10 +186,17 @@ class _TaskDetailState extends State<TaskDetail> {
     );
   }
 
-  void getData() {
-//    for (int i = 0; i < 5; i++) {
-//      data.add(new NotiBean(i,'小红', "注意你的bug，他会爆发", 'SS5${i}1', "1989-0$i/04"));
-//    }
+  void getData() async {
+    var json = await Net().getNotiListById(widget.task.id, "task");
+    var subList = json["list"] as List;
+   // print(subList);
+    data.addAll(subList
+        .map((v) => Notifi.fromJson(v)
+          ..subjectName = widget.task.name
+          ..subjectId = widget.task.id
+          ..type = "task")
+        .toList());
+    setState(() {});
   }
 
   String getPeopleName(List<User> list) {

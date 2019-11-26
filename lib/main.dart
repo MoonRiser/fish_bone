@@ -32,15 +32,18 @@ class MyApp extends StatelessWidget {
                 accentColor: Styles.colorAccent),
             darkTheme: ThemeData.dark(),
             themeMode: Provider.of<UIState>(context).themeMode,
-          //  themeMode: ThemeMode.system,
-            home: LoginRoute(),
+            //  themeMode: ThemeMode.system,
+            home: FishBoneHome(),
+            initialRoute: "login",
             routes: <String, WidgetBuilder>{
+              "login": (context) => LoginRoute(),
               "home": (context) => FishBoneHome(),
-              "taskDetail": (context) => TaskDetail(),
+              "taskDetail": (context) =>
+                  TaskDetail(ModalRoute.of(context).settings.arguments),
               "projectDetail": (context) => ProjectDetail(),
               "login": (context) => LoginRoute(),
               "taskCreate": (context) => TaskCreatePage(),
-              "projectCreate":(context)=> ProjectCreatePage(),
+              "projectCreate": (context) => ProjectCreatePage(),
             },
           );
         },

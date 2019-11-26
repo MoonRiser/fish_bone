@@ -3,18 +3,16 @@ import 'package:fish_bone/common/styles.dart';
 import 'package:flutter/material.dart';
 
 class TaskItemView extends StatelessWidget {
-
-
-
   TaskItemView(this.taskBean);
+
   final TaskBean taskBean;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(4),
+      margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -45,5 +43,4 @@ class TaskItemView extends StatelessWidget {
       ),
     );
   }
-
 }

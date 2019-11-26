@@ -19,30 +19,6 @@ abstract class Styles {
   static const Color primaryText = Color(0xff212121);
   static const Color secondaryText = Color(0xff757575);
 
-  static const Color dividerColor = Color(0xffBDBDBD);
-
-  static const TextStyle productRowItemPrice = TextStyle(
-    //  color: Color(0xFF8E8E93),
-    fontSize: 13,
-    fontWeight: FontWeight.w300,
-  );
-
-  static const TextStyle searchText = TextStyle(
-    //  color: Color.fromRGBO(0, 0, 0, 1),
-    fontSize: 14,
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-  );
-
-  static const TextStyle deliveryTimeLabel = TextStyle(
-    //   color: Color(0xFFC2C2C2),
-    fontWeight: FontWeight.w300,
-  );
-
-  static const TextStyle deliveryTime = TextStyle(
-    color: CupertinoColors.inactiveGray,
-  );
-
   static const BoxShadow cardShadow =
       BoxShadow(offset: Offset(0, 0), color: Colors.black54, blurRadius: 4.0);
 
@@ -96,5 +72,18 @@ abstract class Styles {
     ];
     var random = new Random(seed);
     return colors[random.nextInt(5)];
+  }
+
+  // This converts a String to a unique color, based on the hash value of the
+  // String object.  It takes the bottom 16 bits of the hash, and uses that to
+  // pick a hue for an HSV color, and then creates the color (with a preset
+  // saturation and value).  This means that any unique strings will also have
+  // unique colors, but they'll all be readable, since they have the same
+  // saturation and value.
+  static Color getColorByString(String name) {
+    assert(name.length > 1);
+    final int hash = name.hashCode & 0xffff;
+    final double hue = (360.0 * hash / (1 << 15)) % 360.0;
+    return HSVColor.fromAHSV(1.0, hue, 0.4, 0.90).toColor();
   }
 }

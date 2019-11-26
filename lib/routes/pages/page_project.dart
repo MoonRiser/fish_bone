@@ -1,10 +1,8 @@
-import 'dart:collection';
-
+import 'package:fish_bone/common/network_api.dart';
 import 'package:fish_bone/models/bean.dart';
 import 'package:fish_bone/widgets/item_project.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
-import 'package:fish_bone/common/network_api.dart';
 
 class ProjectDisplayPage extends StatefulWidget {
   @override
@@ -21,7 +19,6 @@ class _ProjectCreatePageState extends State<ProjectDisplayPage>
   ];
   int _index = 0;
   var _appBarColor;
-  var projData = <int, List<Project>>{0: [], 1: [], 2: []};
   var projStatus = ["running", "finish", "all"];
 
   final ColorTween colorTween =
@@ -52,9 +49,9 @@ class _ProjectCreatePageState extends State<ProjectDisplayPage>
       body: TabBarView(
         controller: controller,
         children: <Widget>[
-          Center(child: _buildList()),
-          Center(child: _buildList()),
-          Center(child: _buildList()),
+          _buildList(0),
+          _buildList(1),
+          _buildList(2),
         ],
       ),
       appBar: AppBar(
@@ -85,33 +82,27 @@ class _ProjectCreatePageState extends State<ProjectDisplayPage>
     controller.dispose();
   }
 
-  Widget _buildList() {
+  Widget _buildList(int _index) {
     return InfiniteListView<Project>(
       onRetrieveData: (int page, List<Project> items, bool refresh) async {
-        if (projData[_index].length > 0 && refresh == true) {
-          projData[_index].clear();
-        }
-
         //把请求到的新数据添加到items中
         var json =
             await Net().getProjList(page, 8, projStatus[_index], refresh);
         var jsonProj = json['list'] as List;
         var sublist = jsonProj.map((v) => Project.fromJson(v)).toList();
-        projData[_index].addAll(sublist);
         items.addAll(sublist);
-     //   print(items.length.toString() + ":" + sublist.length.toString());
-        return (jsonProj.length > 0) && (jsonProj.length % 8 == 0);
+        //   print(items.length.toString() + ":" + sublist.length.toString());
+        return (sublist.length > 0) && (sublist.length % 8 == 0);
         // return data.length > 0 && data.length % 5 == 0;
       },
       itemBuilder: (List list, int index, BuildContext context) {
         return GestureDetector(
           child: ProjectItemView(list[index]),
-          onTap: () async {
+          onTap: () {
             Navigator.of(context)
-                .pushNamed("projectDetail", arguments: projData[_index][index]);
+                .pushNamed("projectDetail", arguments: list[index]);
           },
         );
-        // return
       },
     );
   }
