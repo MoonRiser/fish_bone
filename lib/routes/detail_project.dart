@@ -27,6 +27,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
     currentProj = ModalRoute.of(context).settings.arguments as Project;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("项目详情"),
         actions: <Widget>[
           Switch(
@@ -35,7 +36,24 @@ class _ProjectDetailState extends State<ProjectDetail> {
               _isList = isChanged;
               setState(() {});
             },
-          )
+          ),
+          PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (context) {
+              return <PopupMenuEntry<String>>[
+                const PopupMenuItem(
+                  child: Text("删除"),
+                  value: "delete",
+                )
+              ];
+            },
+            onSelected: (type) {
+              if (type == "delete") {
+            //    print("you tap delete");
+                //此处进行删除操作
+              }
+            },
+          ),
         ],
       ),
       bottomNavigationBar: _isList
@@ -79,22 +97,11 @@ class _ProjectDetailState extends State<ProjectDetail> {
       body: Padding(
         padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  "[50%] 鱼骨项目",
-                  textScaleFactor: 1.6,
-                ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {},
-                )
-              ],
+            Text(
+              "[50%] 鱼骨项目",
+              textScaleFactor: 1.6,
             ),
             Row(
               children: <Widget>[
@@ -199,7 +206,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
         var jsonTask = json['list'] as List;
         var sublist = jsonTask.map((v) => Task.fromJson(v)).toList();
         items.addAll(sublist);
-      //  print("items:${items.length}");
+        //  print("items:${items.length}");
         //      print(items.length.toString() + ":" + sublist.length.toString());
         //   return (sublist.length > 0) && (sublist.length % 12 == 0);
         return false;

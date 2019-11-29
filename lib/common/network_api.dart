@@ -171,4 +171,21 @@ class Net {
     //   print(response.data);
     return response.data;
   }
+
+  Future<String> addNoti(int subjectID, String content, String type) async {
+    var url = '/opera/add';
+
+    Response<dynamic> response = await dio.post(
+      url,
+      data: {
+        "subject_id": subjectID,
+        "content": content,
+        "type": type,
+      },
+      options: Options(extra: {"noCache": true}),
+    );
+    var msg = response.data as Map;
+    print(response.data);
+    return msg["list"];
+  }
 }

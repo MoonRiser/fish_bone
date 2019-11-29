@@ -74,6 +74,7 @@ class _TaskCreatePageState extends State<TaskDisplayPage>
 
   Widget _buildList(int _index) {
     return InfiniteListView<Task>(
+      key:PageStorageKey(_index) ,
       onRetrieveData: (int page, List<Task> items, bool refresh) async {
         //把请求到的新数据添加到items中
         var json =

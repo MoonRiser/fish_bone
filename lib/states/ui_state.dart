@@ -37,6 +37,14 @@ class UIState extends ProfileChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
 
   ThemeMode get themeMode => _themeMode;
+  
+  Color get headerColor {
+    if(_themeMode==ThemeMode.dark){
+      return Color.fromRGBO(44, 44, 45, 1.0);
+    }else{
+      return Color.fromRGBO(245, 245, 255, 1.0);
+    }
+  }
 
   void changeDarkMode() {
     if (_themeMode == ThemeMode.dark) {

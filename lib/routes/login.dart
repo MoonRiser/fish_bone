@@ -23,7 +23,7 @@ class _LoginRouteState extends State<LoginRoute> {
   var isRegister = true;
   bool isButtonEnable = false;
   bool currentStatus;
-  List<int> imgBytes;
+  List<int> imgBytes = [];
   Net _net;
 
   @override
@@ -99,6 +99,7 @@ class _LoginRouteState extends State<LoginRoute> {
                           ? TextFormField(
                               controller: _controllerNickName,
                               decoration: InputDecoration(
+                                  filled: true,
                                   labelText: '昵称',
                                   hintText: 'nickname here',
                                   prefixIcon: Icon(Icons.person)),
@@ -138,8 +139,8 @@ class _LoginRouteState extends State<LoginRoute> {
                                             ? null
                                             : '长度=5';
                                       },
-                                      decoration:
-                                          InputDecoration(labelText: '验证码:'),
+                                      decoration: InputDecoration(
+                                          labelText: '验证码:', filled: true),
                                     ),
                                   )
                                 ],
@@ -147,9 +148,10 @@ class _LoginRouteState extends State<LoginRoute> {
                             ),
                       TextFormField(
                         controller: _controllerAccout,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        //    keyboardType:
+                        //      TextInputType.numberWithOptions(decimal: true),
                         decoration: InputDecoration(
+                          filled: true,
                           labelText: '账号',
                           hintText: 'account here',
                           prefixIcon: Icon(Icons.account_circle),
@@ -162,6 +164,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         controller: _controllerPWD,
                         obscureText: _psdVisible,
                         decoration: InputDecoration(
+                          filled: true,
                           labelText: '密码',
                           hintText: 'password here',
                           prefixIcon: Icon(Icons.lock),
@@ -209,7 +212,8 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   void _setCaptChaCode() async {
-    imgBytes = await _net.getCaptcha();
+    imgBytes.clear();
+    imgBytes.addAll(await _net.getCaptcha());
     setState(() {});
   }
 

@@ -48,12 +48,24 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
             Expanded(
               child: SingleChildScrollView(
                 child: ExpansionPanelList.radio(
-                  expansionCallback: (index, isExpand) {},
+                  expansionCallback: (index, isExpand) {
+                    // print("index:$index,isExpand:$isExpand");
+                  },
                   children: <ExpansionPanelRadio>[
                     ExpansionPanelRadio(
                       headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text("负责人"),
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text("负责人"),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(_selectedName),
+                            ),
+                          ],
                         );
                       },
                       body: Padding(
@@ -67,8 +79,18 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                     ),
                     ExpansionPanelRadio(
                       headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text("抄送人"),
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text("抄送人"),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: getTextFromMap(cc),
+                            ),
+                          ],
                         );
                       },
                       body: Padding(
@@ -82,8 +104,18 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                     ),
                     ExpansionPanelRadio(
                       headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text("起止时间"),
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text("起讫日期:"),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(_time),
+                            ),
+                          ],
                         );
                       },
                       body: GestureDetector(
@@ -158,6 +190,16 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
         ),
       ),
     );
+  }
+
+  Widget getTextFromMap(Map<String, bool> map) {
+    var temp = '';
+    map.forEach((k, v) {
+      if (v) {
+        temp = temp + k + "、";
+      }
+    });
+    return Text(temp);
   }
 
   Future<DateTime> _showDatePicker1([DateTime dateTime]) {

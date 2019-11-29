@@ -9,9 +9,16 @@ class Notifi {
   String type;
   int subjectId;
 
-  Notifi();
+  //Notifi();
 
-  //{list: [{id: 153, pid: 19, tid: null, creator: kanye, content: 132132, creatTime: 2019-11-11 23:17:23,
+  Notifi(
+      {this.id,
+      this.userName,
+      this.content,
+      this.subjectName,
+      this.date,
+      this.type,
+      this.subjectId}); //{list: [{id: 153, pid: 19, tid: null, creator: kanye, content: 132132, creatTime: 2019-11-11 23:17:23,
   // subject_id: 19, type: project, subject_name: fish_bone}, {id: 165, pid: 19, tid: null, creator: kanye,
   // content: 13123123, creatTime: 2019-11-11 23:52:48, subject_id: 19, type: project, subject_name: fish_bone},
   // {id: 205, pid: null, tid: 62, creator: kanye, content: 修改任务抄送人为：
@@ -54,7 +61,6 @@ class TaskBean {
 
   TaskBean(this.taskName, this.status, this.time);
 }
-
 
 class Task {
   //{id: 64, name: 任务Test, code: T20191027, type: 普通, content: 这是一个任务啊, fGid: 81, cGid: 82,
