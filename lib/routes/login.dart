@@ -99,6 +99,7 @@ class _LoginRouteState extends State<LoginRoute> {
                           ? TextFormField(
                               controller: _controllerNickName,
                               decoration: InputDecoration(
+                                  border: InputBorder.none,
                                   filled: true,
                                   labelText: '昵称',
                                   hintText: 'nickname here',
@@ -140,17 +141,21 @@ class _LoginRouteState extends State<LoginRoute> {
                                             : '长度=5';
                                       },
                                       decoration: InputDecoration(
-                                          labelText: '验证码:', filled: true),
+                                          border: InputBorder.none,
+                                          labelText: '验证码:',
+                                          filled: true),
                                     ),
                                   )
                                 ],
                               ),
                             ),
+                      SizedBox(height: 16,),
                       TextFormField(
                         controller: _controllerAccout,
                         //    keyboardType:
                         //      TextInputType.numberWithOptions(decimal: true),
                         decoration: InputDecoration(
+                          border: InputBorder.none,
                           filled: true,
                           labelText: '账号',
                           hintText: 'account here',
@@ -160,10 +165,12 @@ class _LoginRouteState extends State<LoginRoute> {
                           return v.trim().length > 7 ? null : '账号长度>=8';
                         },
                       ),
+                      SizedBox(height: 16,),
                       TextFormField(
                         controller: _controllerPWD,
                         obscureText: _psdVisible,
                         decoration: InputDecoration(
+                          border: InputBorder.none,
                           filled: true,
                           labelText: '密码',
                           hintText: 'password here',

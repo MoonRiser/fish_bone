@@ -13,7 +13,6 @@ class _TaskCreatePageState extends State<TaskDisplayPage>
     with SingleTickerProviderStateMixin {
   TabController controller;
   var tabs = <Widget>[Text('全部'), Text('我负责'), Text("我创建"), Text("抄送我")];
-  int _index = 0;
   var _appBarColor;
 
   final ColorTween colorTween =
@@ -22,13 +21,7 @@ class _TaskCreatePageState extends State<TaskDisplayPage>
   @override
   void initState() {
     super.initState();
-    controller = new TabController(initialIndex: 0, length: 4, vsync: this)
-      ..addListener(() {
-        setState(() {
-          _index = controller.index;
-          //  print(_index);
-        });
-      });
+    controller = new TabController(initialIndex: 0, length: 4, vsync: this);
     Animation animation = controller.animation;
     animation.addListener(() {
       // print(animation.value);
@@ -74,7 +67,7 @@ class _TaskCreatePageState extends State<TaskDisplayPage>
 
   Widget _buildList(int _index) {
     return InfiniteListView<Task>(
-      key:PageStorageKey(_index) ,
+      key: PageStorageKey(_index),
       onRetrieveData: (int page, List<Task> items, bool refresh) async {
         //把请求到的新数据添加到items中
         var json =

@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
               "home": (context) => FishBoneHome(),
               "taskDetail": (context) =>
                   TaskDetail(ModalRoute.of(context).settings.arguments),
-              "projectDetail": (context) => ProjectDetail(),
+              "projectDetail": (context) => ProjectDetail(ModalRoute.of(context).settings.arguments),
               "login": (context) => LoginRoute(),
               "taskCreate": (context) => TaskCreatePage(),
               "projectCreate": (context) => ProjectCreatePage(),

@@ -1,3 +1,4 @@
+import 'package:fish_bone/common/widgets_my.dart';
 import 'package:flutter/material.dart';
 
 class ProjectCreatePage extends StatefulWidget {
@@ -12,6 +13,23 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
   var startTime;
   var endTime;
   var _withTree = false;
+  var pms = ["Poker", "Ada Wong", "Fish", "Leon", "Rome"]; //项目经理
+  Map<String, String> _selectedName = {"name": "Rome"};
+
+  List<String> memberList = [
+    "John Conner",
+    "Peter Park",
+    "Laura",
+    "Morty",
+    "Rick"
+  ]; //成员
+  Map<String, bool> members;
+
+  @override
+  void initState() {
+    super.initState();
+    members = new Map.fromEntries(memberList.map((v) => new MapEntry(v, false)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +50,9 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent))),
             ),
-            SizedBox(height: 24,),
+            SizedBox(
+              height: 24,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: ExpansionPanelList.radio(
@@ -40,38 +60,70 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
                   children: <ExpansionPanelRadio>[
                     ExpansionPanelRadio(
                       headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text("项目经理"),
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text("项目经理"),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(_selectedName["name"]),
+                            ),
+                          ],
                         );
                       },
-                      body: ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return ListTile(title: Text("$index"));
-                        },
-                        shrinkWrap: true,
+                      body: Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
+                        child: Wrap(
+                          spacing: 16,
+                          children: MyCommonWidget.getChoiceChips(
+                              pms, _selectedName, this),
+                        ),
                       ),
                       value: 0,
                     ),
                     ExpansionPanelRadio(
                       headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text("项目成员"),
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text("项目成员"),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: MyCommonWidget.getTextFromMap(members),
+                            ),
+                          ],
                         );
                       },
-                      body: ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return ListTile(title: Text("$index"));
-                        },
-                        shrinkWrap: true,
+                      body: Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
+                        child: Wrap(
+                          spacing: 16,
+                          children: MyCommonWidget.getFilterChips(
+                              memberList, members, this),
+                        ),
                       ),
                       value: 1,
                     ),
                     ExpansionPanelRadio(
                       headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: Text("起止时间"),
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text("起讫日期:"),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(_time),
+                            ),
+                          ],
                         );
                       },
                       body: GestureDetector(
@@ -106,7 +158,8 @@ class _ProjectCreatePageState extends State<ProjectCreatePage> {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-                              child:Text("管控型项目"),),
+                              child: Text("管控型项目"),
+                            ),
                             Spacer(),
                             Builder(
                               builder: (BuildContext context) {

@@ -26,7 +26,8 @@ class ProjectItemView extends StatelessWidget {
                       backgroundColor: Colors.grey[200],
                       valueColor:
                           AlwaysStoppedAnimation(Theme.of(context).accentColor),
-                      value: .7,
+                      value: (int.parse(project.percent.replaceAll("%", "")) /
+                          100.0),
                     ),
                   ),
                   Text(project.percent),

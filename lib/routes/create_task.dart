@@ -1,4 +1,5 @@
 import 'package:fish_bone/common/styles.dart';
+import 'package:fish_bone/common/widgets_my.dart';
 import 'package:flutter/material.dart';
 
 class TaskCreatePage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
   var names = ["Poker", "Ada Wong", "Fish", "Leon", "Rome"];
   List<String> ccList = ["John Conner", "Peter Park", "Laura", "Morty", "Rick"];
   Map<String, bool> cc;
-  String _selectedName = "Rome";
+  Map<String, String> _selectedName = {"name": "Rome"};
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
               keyboardType: TextInputType.multiline,
               controller: controller,
               decoration: InputDecoration(
+                  filled: true,
                   hintText: "任务主题（必填）",
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.transparent))),
@@ -63,7 +65,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                             ),
                             Expanded(
                               flex: 2,
-                              child: Text(_selectedName),
+                              child: Text(_selectedName["name"]),
                             ),
                           ],
                         );
@@ -72,7 +74,8 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                         padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
                         child: Wrap(
                           spacing: 16,
-                          children: getChoiceChips(names),
+                          children: MyCommonWidget.getChoiceChips(
+                              names, _selectedName, this),
                         ),
                       ),
                       value: 0,
@@ -88,7 +91,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                             ),
                             Expanded(
                               flex: 2,
-                              child: getTextFromMap(cc),
+                              child: MyCommonWidget.getTextFromMap(cc),
                             ),
                           ],
                         );
@@ -97,7 +100,8 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
                         padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
                         child: Wrap(
                           spacing: 16,
-                          children: getFilterChips(ccList),
+                          children:
+                              MyCommonWidget.getFilterChips(ccList, cc, this),
                         ),
                       ),
                       value: 1,
@@ -192,16 +196,6 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
     );
   }
 
-  Widget getTextFromMap(Map<String, bool> map) {
-    var temp = '';
-    map.forEach((k, v) {
-      if (v) {
-        temp = temp + k + "、";
-      }
-    });
-    return Text(temp);
-  }
-
   Future<DateTime> _showDatePicker1([DateTime dateTime]) {
     bool isStart = (dateTime == null) ? true : false;
     var date = DateTime.now();
@@ -213,38 +207,5 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
           Duration(days: 30)) : dateTime.add(//未来30天可选
           Duration(days: 30)),
     );
-  }
-
-  List<Widget> getChoiceChips(List<String> _materials) {
-    return _materials.map<Widget>((String name) {
-      return ChoiceChip(
-        key: ValueKey<String>(name),
-        backgroundColor: Styles.getColorByString(name),
-        label: Text(name),
-        pressElevation: 0,
-        selected: _selectedName == name,
-        onSelected: (bool value) {
-          setState(() {
-            _selectedName = value ? name : '';
-          });
-        },
-      );
-    }).toList();
-  }
-
-  List<Widget> getFilterChips(List<String> _materials) {
-    return _materials.map<Widget>((String name) {
-      return FilterChip(
-        key: ValueKey<String>(name),
-        backgroundColor: Styles.getColorByString(name),
-        label: Text(name),
-        pressElevation: 0,
-        selected: cc[name],
-        onSelected: (bool value) {
-          cc[name] = value;
-          setState(() {});
-        },
-      );
-    }).toList();
   }
 }

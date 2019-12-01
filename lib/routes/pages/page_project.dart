@@ -17,7 +17,8 @@ class _ProjectCreatePageState extends State<ProjectDisplayPage>
     Text('完成'),
     Text("全部"),
   ];
-  int _index = 0;
+
+//  var _index = 0;
   var _appBarColor;
   var projStatus = ["running", "finish", "all"];
 
@@ -27,13 +28,7 @@ class _ProjectCreatePageState extends State<ProjectDisplayPage>
   @override
   void initState() {
     super.initState();
-    controller = new TabController(initialIndex: 0, length: 3, vsync: this)
-      ..addListener(() {
-        setState(() {
-          _index = controller.index;
-          //  print(_index);
-        });
-      });
+    controller = new TabController(initialIndex: 0, length: 3, vsync: this);
     Animation animation = controller.animation;
     animation.addListener(() {
       //   print(animation.value);
