@@ -9,6 +9,7 @@ class TaskCreatePage extends StatefulWidget {
 
 class _TaskCreatePageState extends State<TaskCreatePage> {
   var controller = new TextEditingController();
+  FocusNode focusNode = FocusNode();
   var _time = '选择起始日期';
   bool isFirstTime = true;
   var startTime;
@@ -35,6 +36,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
         child: Column(
           children: <Widget>[
             TextField(
+              focusNode: focusNode,
               maxLines: 5,
               keyboardType: TextInputType.multiline,
               controller: controller,
@@ -190,7 +192,34 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).accentColor,
           child: Icon(Icons.save),
-          onPressed: () {},
+          onPressed: () {
+            focusNode.unfocus();
+//            showDialog(
+//                context: context,
+//                builder: (context) {
+//                  return SimpleDialog(
+//                    children: <Widget>[
+//                      ListTile(title: Text(_selectedName['name']),),
+//                      Wrap(
+//                        spacing: 8,
+//                        children: names.map<Widget>((String name) {
+//                          return ChoiceChip(
+//                            key: ValueKey<String>(name),
+//                            backgroundColor: Styles.getColorByString(name),
+//                            label: Text(name),
+//                            pressElevation: 0,
+//                            selected: _selectedName['name'] == name,
+//                            onSelected: (bool value) {
+//                              _selectedName['name'] = value ? name : '';
+//                              (context as Element).markNeedsBuild();
+//                            },
+//                          );
+//                        }).toList(),
+//                      ),
+//                    ],
+//                  );
+//                });
+          },
         ),
       ),
     );

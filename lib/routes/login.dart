@@ -38,7 +38,7 @@ class _LoginRouteState extends State<LoginRoute> {
   Widget build(BuildContext context) {
     // _net = new Net(context);
     return Scaffold(
-      //resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         //automaticallyImplyLeading: false,
         title: Text("欢迎来到鱼骨"),
@@ -201,7 +201,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     label: '注册',
                     isEnable: isButtonEnable,
                     callback: () {
-                      // Navigator.of(context).pushNamed("home");
+                       Navigator.of(context).pushNamed("home");
                       //print('login');
                     })
                 : Styles.getLongButton(

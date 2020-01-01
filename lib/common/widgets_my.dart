@@ -264,6 +264,7 @@ class MyCommonWidget {
 typedef GetNotiData = Future Function();
 typedef SetNotiData = Future<String> Function();
 
+//回调接口
 class NotiCallback {
   GetNotiData getNotiData;
   SetNotiData setNotiData;

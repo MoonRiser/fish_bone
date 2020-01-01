@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:fish_bone/common/global.dart';
 import 'package:fish_bone/models/bean.dart';
+import 'package:fish_bone/routes/likeButton/like_button.dart';
 import 'package:fish_bone/states/ui_state.dart';
 import 'package:fish_bone/widgets/card_stack.dart';
 import 'package:flutter/cupertino.dart';
@@ -103,6 +104,10 @@ class _TaskCreatePageState extends State<SettingPage> {
                 padding: EdgeInsets.all(20),
                 child: Row(
                   children: <Widget>[
+                    LikeButton(
+                      width: 32,
+                      duration: Duration(milliseconds: 300),
+                    ),
                     Spacer(
                       flex: 1,
                     ),

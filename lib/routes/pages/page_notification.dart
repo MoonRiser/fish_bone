@@ -70,6 +70,12 @@ class _InfoRouteState extends State<InfoRoute> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    tabcontroller as TabController..dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
